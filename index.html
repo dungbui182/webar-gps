@@ -107,37 +107,7 @@
     <script>
         console.log({ THREE, AFRAME });
         // 🎯 Theo dõi vị trí GPS
-        // navigator.geolocation.watchPosition(success, error, { enableHighAccuracy: true });
-
-        // function calculateDistance(lat1, lon1, lat2, lon2) {
-        //     const R = 6371e3; // Bán kính Trái Đất (mét)
-        //     const φ1 = lat1 * Math.PI / 180;
-        //     const φ2 = lat2 * Math.PI / 180;
-        //     const Δφ = (lat2 - lat1) * Math.PI / 180;
-        //     const Δλ = (lon2 - lon1) * Math.PI / 180;
-
-        //     const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-        //         Math.cos(φ1) * Math.cos(φ2) *
-        //         Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-        //     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        //     return R * c; // Khoảng cách tính bằng mét
-        // }
-
-        // function success(position) {
-        //     let lat = position.coords.latitude;
-        //     let lon = position.coords.longitude;
-        //     let bridgeLat = 10.772957;
-        //     let bridgeLon = 106.708171;
-        //     let distance = calculateDistance(lat, lon, bridgeLat, bridgeLon).toFixed(2); // Làm tròn 2 số lẻ
-        //     document.getElementById("coords").innerHTML = `📍 Lat: ${lat} <br> Lon: ${lon} <br> 🔢 Khoảng cách: ${distance}m`;
-        // }
-
-
-        // function error() {
-        //     console.log("❌ Không thể lấy vị trí.");
-        // }
-
+        navigator.geolocation.watchPosition(success, error, { enableHighAccuracy: true });
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371e3; // Bán kính Trái Đất (mét)
             const φ1 = lat1 * Math.PI / 180;
@@ -149,31 +119,24 @@
                 Math.cos(φ1) * Math.cos(φ2) *
                 Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
             return R * c; // Khoảng cách tính bằng mét
         }
 
-        let lastLat = null;
-        let lastLon = null;
-        let bridgeLat = 10.772957;
-        let bridgeLon = 106.708171;
-
-        navigator.geolocation.watchPosition((position) => {
+        function success(position) {
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
-            if (lastLat && lastLon && Math.abs(lat - lastLat) < 0.00001 && Math.abs(lon - lastLon) < 0.00001) {
-                return; // Bỏ qua cập nhật nếu di chuyển quá nhỏ
-            }
-            lastLat = lat;
-            lastLon = lon;
-            let distance = calculateDistance(lat, lon, bridgeLat, bridgeLon).toFixed(2);
+            let bridgeLat = 10.772957;
+            let bridgeLon = 106.708171;
+            let distance = calculateDistance(lat, lon, bridgeLat, bridgeLon).toFixed(2); // Làm tròn 2 số lẻ
             document.getElementById("coords").innerHTML = `📍 Lat: ${lat} <br> Lon: ${lon} <br> 🔢 Khoảng cách: ${distance}m`;
-            // Đặt lại cầu về vị trí cố định
-            let bridge = document.querySelector("#helix_bridge");
-            if (bridge) {
-                bridge.setAttribute("gps-entity-place", `latitude: ${bridgeLat}; longitude: ${bridgeLon}`);
-                bridge.setAttribute("position", "0 0 0");
-            }
-        }, error, { enableHighAccuracy: true });
+        }
+
+
+        function error() {
+            console.log("❌ Không thể lấy vị trí.");
+        }
+
 
     </script>
 
