@@ -95,7 +95,7 @@
         <a-camera gps-camera gpsMinDistance="5" rotation-reader look-controls></a-camera>
 <!-- 10.912011, 106.584840 -->
 <!-- 10.772957, 106.708171 -->
-        <a-entity id="helix_bridge" gps-entity-place="latitude: 10.772957; longitude: 106.708171" position="0 0 0"
+        <a-entity id="helix_bridge" gps-entity-place="latitude: 10.768761157819142; longitude: 106.65937382181227" position="0 0 0"
             scale="1 1 1" gltf-model="helix_bridge.glb" rotation="0 0 0" visible="true" gesture-handler >
         </a-entity>
     </a-scene>
@@ -127,8 +127,8 @@
         function success(position) {
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
-            let bridgeLat = 10.772957;
-            let bridgeLon = 106.708171;
+            let bridgeLat = 10.768761157819142;
+            let bridgeLon = 106.65937382181227;
             let distance = calculateDistance(lat, lon, bridgeLat, bridgeLon).toFixed(2); // Làm tròn 2 số lẻ
             document.getElementById("coords").innerHTML = `📍 Lat: ${lat} <br> Lon: ${lon} <br> 🔢 Khoảng cách: ${distance}m`;
         }
